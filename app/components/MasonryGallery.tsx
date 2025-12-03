@@ -109,7 +109,7 @@ export default function MasonryGallery() {
                 className="absolute inset-0 bg-[#cfcfcf] text-black p-10 flex flex-col gap-5 border border-gray-500 rounded-lg shadow-xl backface-hidden rotate-y-180"
                 onContextMenu={flipCard}
               >
-                <h3 classname="text-xl font-bold text-gray-800">
+                <h3 className="text-xl font-bold text-gray-800">
                   Notes
                 </h3>
 
