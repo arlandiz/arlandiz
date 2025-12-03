@@ -87,14 +87,11 @@ export default function DNAMapOrigen() {
       <div className="relative w-full max-w-[1800px] h-[78vh] mx-auto">
         <ComposableMap projectionConfig={{ scale: 200 }}>
           <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => (
+            {({ geographies }: { geographies: any[] }) =>
+              geographies.map((geo: any) => (
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill="transparent"
-                  stroke="#777"
-                  strokeWidth={1.05}
                 />
               ))
             }
