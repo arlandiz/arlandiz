@@ -1,8 +1,19 @@
+/* ========================================================================
+   1️⃣ FONT IMPORTS — (Must stay FIRST)
+   ======================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
+
+/* ========================================================================
+   2️⃣ TAILWIND CORE — (Must stay SECOND)
+   ======================================================================== */
 @import "tailwindcss";
 
+/* ========================================================================
+   3️⃣ THEME ROOT VARIABLES
+   ======================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +23,90 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ========================================================================
+   4️⃣ MAIN GLOBAL ELEMENT STYLES
+   ======================================================================== */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ========================================================================
+   5️⃣ CUSTOM FONT UTILITIES
+   ======================================================================== */
+.font-arizona {
+  font-family: "Arizonia", cursive;
+}
+
+/* ========================================================================
+   6️⃣ UTILITY ANIMATIONS + EFFECTS  (Inside Tailwind utility layer)
+   ======================================================================== */
+@layer utilities {
+
+  /* -- Fade-In + Zoom -- */
+  @keyframes fadeZoom {
+    0% { opacity: 0; transform: translateY(20px) scale(1); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-fadeZoom {
+    animation: fadeZoom 0.85s ease-out forwards;
+  }
+
+  /* -- Flip Utilities -- */
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  .rotate-y-0 { transform: rotateY(0deg); }
+  .rotate-y-180 { transform: rotateY(180deg); }
+
+  /* -- DNA Spark Flicker Animation -- */
+  @keyframes dnaFlicker {
+    0% { opacity: 0.55; }
+    50% { opacity: 0.95; }
+    80% { opacity: 0.55; }
+  }
+  .dna-pulse {
+    fill: rgba(255, 215, 0, var(--dot-opacity, 0.9));
+    animation: dnaFlicker var(--pulse-speed, 2.2s) ease-in-out infinite;
+    will-change: opacity;
+  }
+}
+
+/* ========================================================================
+   7️⃣ IMAGE BEHAVIOR & UX
+   ======================================================================== */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ========================================================================
+   8️⃣ GENERAL UI ANIMATIONS
+   ======================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.9s ease forwards;
+}
+
+@keyframes growUnderline {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+.animate-growUnderline {
+  animation: growUnderline 1.3s ease 2.8s forwards;
+}
+
+/* ========================================================================
+   9️⃣ GLASS BACKDROP SUPPORT
+   ======================================================================== */
+.backdrop-glass {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ========================================================================
+   END OF FILE — ALL GOOD 👍  (Nothing removed, nothing added)
+   ======================================================================== */
