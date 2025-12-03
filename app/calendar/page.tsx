@@ -1,4 +1,3 @@
-// app/calendar/page.tsx
 "use client";
 
 import Link from "next/link";
@@ -12,7 +11,7 @@ export default function CalendarPage() {
   // 🔹 Search query state
   const [query, setQuery] = useState("");
 
-  // 🔹 Random card heights (stable after first mount)
+  // 🔹 Random card heights
   const [cardHeights, setCardHeights] = useState<HeightMap>({});
 
   useEffect(() => {
@@ -23,7 +22,7 @@ export default function CalendarPage() {
     setCardHeights(heights);
   }, []);
 
-  // 🔹 Filter events by search text (title + date)
+  // 🔹 Filter events
   const loweredQuery = query.toLowerCase();
   const visibleEvents = calendarEvents.filter((event) => {
     if (!loweredQuery) return true;
@@ -33,7 +32,7 @@ export default function CalendarPage() {
 
   return (
     <main className="min-h-screen bg-black text-white px-4 py-8 sm:px-8 lg:px-16">
-      {/* ░░░ HEADER: LOGO + NAV ░░░ */}
+      {/* ░░░ HEADER ░░░ */}
       <header className="mb-8 flex flex-col gap-5">
         <div className="mt-1 text-left">
           <span className="font-arizona text-4xl sm:text-5xl text-white tracking-wide">
@@ -41,7 +40,6 @@ export default function CalendarPage() {
           </span>
         </div>
 
-        {/* Main nav buttons (same as other pages) */}
         <nav className="grid grid-cols-1 gap-3 sm:grid-cols-3 text-sm">
           <a
             href="/gene"
@@ -66,18 +64,13 @@ export default function CalendarPage() {
 
       {/* ░░░ SEARCH BAR + GRID ░░░ */}
       <section className="pb-16">
-        {/* 🔍 Search bar (Style A: rounded box) */}
         <div className="mb-8 flex justify-center">
           <div className="w-full max-w-md">
-            <label htmlFor="calendar-search" className="sr-only">
-              Search events
-            </label>
             <div className="relative">
               <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-500 text-sm">
                 🔍
               </span>
               <input
-                id="calendar-search"
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -88,10 +81,11 @@ export default function CalendarPage() {
           </div>
         </div>
 
-        {/* 🧱 Event cards grid */}
+        {/* EVENT CARDS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {visibleEvents.map((event) => {
-            const height = cardHeights[event.slug] ?? 260; // fallback height
+            const height = cardHeights[event.slug] ?? 260;
+            const firstMedia = event.media?.[0];
 
             return (
               <Link
@@ -100,16 +94,20 @@ export default function CalendarPage() {
                 className="group border border-white/10 bg-zinc-900/30 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-amber-400 transition-all duration-300 animate-fadeZoom"
                 style={{ height: `${height}px` }}
               >
-                {/* Poster image zone (top ~2/3) */}
-                <div className="h-2/3 bg-black/50">
-                  <img
-                  src={event.image || "/placeholder.jpg"}
-                  alt={event.title}
-                  className="h-full w-full object-cover group-hover:opacity-80 transition-opacity duration-300"
-/>
+                {/* Poster image zone */}
+                <div className="h-2/3 bg-black/50 flex items-center justify-center">
+                  {firstMedia?.type === "image" ? (
+                    <img
+                      src={firstMedia.src}
+                      alt={event.title}
+                      className="h-full w-full object-cover group-hover:opacity-80 transition-opacity duration-300"
+                    />
+                  ) : (
+                    <div className="text-zinc-400 text-xs">No Image</div>
+                  )}
                 </div>
 
-                {/* Title / date zone (bottom ~1/3) */}
+                {/* Title / date */}
                 <div className="h-1/3 p-3 flex flex-col items-center justify-center text-center">
                   <h3 className="text-amber-300 font-semibold text-sm">
                     {event.date}
@@ -120,7 +118,7 @@ export default function CalendarPage() {
             );
           })}
 
-          {/* Optional: message when nothing matches */}
+          {/* Empty search state */}
           {visibleEvents.length === 0 && (
             <div className="col-span-full text-center text-sm text-zinc-400">
               No events match your search.
