@@ -103,10 +103,10 @@ export default function CalendarPage() {
                 {/* Poster image zone (top ~2/3) */}
                 <div className="h-2/3 bg-black/50">
                   <img
-                    src={event.image}
-                    alt={event.title}
-                    className="h-full w-full object-cover group-hover:opacity-80 transition-opacity duration-300"
-                  />
+                  src={event.image || "/placeholder.jpg"}
+                  alt={event.title}
+                  className="h-full w-full object-cover group-hover:opacity-80 transition-opacity duration-300"
+/>
                 </div>
 
                 {/* Title / date zone (bottom ~1/3) */}
